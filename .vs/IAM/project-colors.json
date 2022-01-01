@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1c9ff117-a19e-4dd4-af14-f32e725fb780": {
+      "ProjectGuid": "1c9ff117-a19e-4dd4-af14-f32e725fb780",
+      "DisplayName": "IAM.Service",
+      "ColorIndex": 0
+    },
+    "04471cfa-a934-4a48-bf9b-45d60a34c350": {
+      "ProjectGuid": "04471cfa-a934-4a48-bf9b-45d60a34c350",
+      "DisplayName": "IMA.Service",
+      "ColorIndex": 1
+    },
+    "278d5907-7621-4f05-a99d-520bbdbc4767": {
+      "ProjectGuid": "278d5907-7621-4f05-a99d-520bbdbc4767",
+      "DisplayName": "IAM.API",
+      "ColorIndex": 2
+    },
+    "1494ccf9-ee2b-4eea-9c37-81519e1457a1": {
+      "ProjectGuid": "1494ccf9-ee2b-4eea-9c37-81519e1457a1",
+      "DisplayName": "IAM.Data",
+      "ColorIndex": 3
+    },
+    "540dacee-f5e9-42e6-b8f7-8bec186696c6": {
+      "ProjectGuid": "540dacee-f5e9-42e6-b8f7-8bec186696c6",
+      "DisplayName": "IAM.Storage",
+      "ColorIndex": 4
+    }
+  },
+  "NextColorIndex": 5
+}

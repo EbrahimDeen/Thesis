@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "70N5bdVeTesK90oq1dpsBxmiGCfKldGy9b/Kd9wL576pVvlVZsb1vzsYm/zocfMA3TIOAe87aRHPeLZMKA9OXQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Ebrahim Deen\\source\\repos\\IAM\\IAM\\IAM.Service.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ebrahim Deen\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.12\\microsoft.netcore.app.host.win-x64.5.0.12.nupkg.sha512"
+  ],
+  "logs": []
+}

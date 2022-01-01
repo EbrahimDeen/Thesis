@@ -1,0 +1,15 @@
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\bin\Debug\net5.0\IAM.Storage.deps.json
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\bin\Debug\net5.0\IAM.Storage.dll
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\bin\Debug\net5.0\ref\IAM.Storage.dll
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\bin\Debug\net5.0\IAM.Storage.pdb
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\IAM.Storage.csproj.AssemblyReference.cache
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\IAM.Storage.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\IAM.Storage.AssemblyInfoInputs.cache
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\IAM.Storage.AssemblyInfo.cs
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\IAM.Storage.csproj.CoreCompileInputs.cache
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\IAM.Storage.dll
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\ref\IAM.Storage.dll
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\IAM.Storage.pdb
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\bin\Debug\net5.0\IAM.Data.dll
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\bin\Debug\net5.0\IAM.Data.pdb
+C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Storage\obj\Debug\net5.0\IAM.Storage.csproj.CopyComplete
