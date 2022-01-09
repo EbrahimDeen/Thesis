@@ -9,4 +9,3 @@ C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Data\obj\Debug\net5.0\IAM.Data.csproj
 C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Data\obj\Debug\net5.0\IAM.Data.dll
 C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Data\obj\Debug\net5.0\ref\IAM.Data.dll
 C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Data\obj\Debug\net5.0\IAM.Data.pdb
-C:\Users\Ebrahim Deen\source\repos\IAM\IAM.Data\obj\Debug\net5.0\IAM.Data.csproj.AssemblyReference.cache

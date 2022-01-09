@@ -1,12 +1,13 @@
 ﻿using IAM.API.Services;
 using IAM.Data.Models;
+using IAM.Data.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace IAM.API.Handlers
 {
-    public class LoginHandler
+    public class LoginHandler: BaseHandler
     {
         ILoginService Service;
         public LoginHandler(ILoginService service)
@@ -14,21 +15,31 @@ namespace IAM.API.Handlers
             Service = service;
         }
 
-        public IEnumerable<User> GetUsers()
+        public Result<IEnumerable<User>> GetUsers()
         {
-            var users = Service.GetUsers();
-            return users;
-        }
+            return HandleResult(() => Service.GetUsers());
 
-        public bool Login(string userEmail)
+        }
+        public Result<bool> Login(string userEmail , string password)
         {
-            var isUser = Service.GetUsers().Any(x => x.User_Email == userEmail);
-            return isUser;
+            return HandleResult(() =>
+            {
+                var isUser = Service.AuthenticateUser(userEmail, password);
+                return isUser;
+            });
         }
 
         public void User_Register(User user)
         {
-            Service.User_Register(user);
+            try
+            {
+                Service.User_Register(user);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            } 
             
         }
     }
