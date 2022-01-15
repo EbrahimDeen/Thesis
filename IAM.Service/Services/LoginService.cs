@@ -1,7 +1,9 @@
 ﻿using IAM.Data.Models;
+using IAM.Data.RequestModels;
 using IAM.Storage.Providers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IAM.API.Services
 {
@@ -28,9 +30,20 @@ namespace IAM.API.Services
             
         }
 
-        public void User_Register(User user)
+        public void User_Register(RegisterUserRequest user)
         {
-            Provider.AddUser(user);
+            var userList = Provider.GetUsers();
+            var alradyExist=userList.Any(x => x.User_Email == user.Email);
+            if (!alradyExist)
+            {
+                Provider.AddUser(user.Email, user.FristName, user.LastName, user.Password, user.DOB
+                , user.Country, "A");
+
+            }
+            else
+            {
+                throw new ArgumentException("User Alrady Exist");
+            }
         }
     }
 }

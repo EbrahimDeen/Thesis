@@ -1,4 +1,5 @@
 ﻿using IAM.Data.Models;
+using IAM.Data.RequestModels;
 using System.Collections.Generic;
 
 namespace IAM.API.Services
@@ -7,6 +8,6 @@ namespace IAM.API.Services
     {
         IEnumerable<User> GetUsers();
         bool AuthenticateUser(string userEmail, string password);
-        void User_Register(User user);
+        void User_Register(RegisterUserRequest user);
     }
 }

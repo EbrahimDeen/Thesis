@@ -12,5 +12,7 @@ namespace IAM.Data.ResponseModel
         public string Error { get; set; }
         public bool Success { get; set; } = true;
 
+        public int StatusCode { get; set; } = 200;
+
     }
 }

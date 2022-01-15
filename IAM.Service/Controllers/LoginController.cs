@@ -1,4 +1,5 @@
-﻿using IAM.API.Handlers;
+﻿using IAM.API.Controllers;
+using IAM.API.Handlers;
 using IAM.API.Services;
 using IAM.Data.Models;
 using IAM.Data.RequestModels;
@@ -10,11 +11,8 @@ using System.Collections.Generic;
 namespace IAM.Service.Controllers
 {
     [ApiController]
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
-        
-
-
         readonly LoginHandler Handler;
         public LoginController(ILoginService service)
         {
@@ -26,45 +24,27 @@ namespace IAM.Service.Controllers
         public IActionResult GetUsers()
         {
             var res = Handler.GetUsers();
-            List <GetUserResponse> getUserResponses = new List<GetUserResponse>();
-            foreach (var user in res.Data)
-            {
-                GetUserResponse response = new GetUserResponse()
-                {
-                    Country = user.Country,
-                    User_Email = user.User_Email,
-                    DOB = user.DOB,
-                    Status = user.Status,
-                    User_fristName = user.User_fristName,
-                    User_ID = user.User_ID,
-                    User_lastName = user.User_lastName
-                };
-                getUserResponses.Add(response);
-            }
+            var env = GetResult(res);
+            return StatusCodeResult(env);
             
-            return Ok(res);
         }
         [HttpPost]
         [Route("Login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
- 
             var res = Handler.Login(request.UserEmail, request.Password);
-            return Ok(res);
+            var env = GetResult(res);
+            return StatusCodeResult(env);
         }
 
         [HttpPost]
         [Route("Register")]
-        public IActionResult User_Register(User user)
+        public IActionResult User_Register(RegisterUserRequest request)
         {
-            try
-            {
-                Handler.User_Register(user);
-                return Ok();            }
-            catch (System.Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var res = Handler.User_Register(request);
+            var env = GetResult(res);
+            return StatusCodeResult(env);
+
         }
         
     }

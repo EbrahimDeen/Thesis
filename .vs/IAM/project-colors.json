@@ -25,6 +25,11 @@
       "ProjectGuid": "540dacee-f5e9-42e6-b8f7-8bec186696c6",
       "DisplayName": "IAM.Storage",
       "ColorIndex": 4
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
     }
   },
   "NextColorIndex": 5

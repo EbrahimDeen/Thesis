@@ -5,21 +5,18 @@ namespace IAM.API.Handlers
 {
     public class BaseHandler
     {
-        public Result<T> HandleResult<T>(Func<T> apiCall)
+        public object ExecuteTryCatch(Action apiCall)
         {
-            Result<T> result = new();
             try
             {
-                var res = apiCall();
-                result.Data = res;
+                apiCall();
             }
             catch (Exception ex)
             {
-                result.Error = ex.Message;
-                result.Success = false;
+                //logError;
+                return ex;
             }
-            return result;
-
+            return null;
         } 
     }
 }
