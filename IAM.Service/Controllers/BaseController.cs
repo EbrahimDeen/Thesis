@@ -1,12 +1,17 @@
 ﻿using IAM.Data.ResponseModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace IAM.API.Controllers
 {
     public class BaseController : ControllerBase
     {
-
+        public IConfiguration Configuration;
+        public BaseController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         internal ObjectResult StatusCodeResult<T>(Result<T> result)
         {
             return StatusCode(result.StatusCode, result);

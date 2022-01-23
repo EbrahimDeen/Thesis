@@ -5,6 +5,7 @@ using IAM.Data.Models;
 using IAM.Data.RequestModels;
 using IAM.Data.ResponseModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 
@@ -14,9 +15,9 @@ namespace IAM.Service.Controllers
     public class LoginController : BaseController
     {
         readonly LoginHandler Handler;
-        public LoginController(ILoginService service)
+        public LoginController(ILoginService service, IConfiguration configuration): base(configuration)
         {
-            Handler = new LoginHandler(service);
+            Handler = new LoginHandler(service, configuration);
         }
 
         [HttpGet]
@@ -36,7 +37,6 @@ namespace IAM.Service.Controllers
             var env = GetResult(res);
             return StatusCodeResult(env);
         }
-
         [HttpPost]
         [Route("Register")]
         public IActionResult User_Register(RegisterUserRequest request)

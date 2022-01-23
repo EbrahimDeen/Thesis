@@ -14,14 +14,14 @@ namespace IAM.API.Services
         {
             Provider = provider;
         }
-        public bool AuthenticateUser(string userEmail, string password)
+        public User AuthenticateUser(string userEmail, string password)
         {
-            var u1 = Provider.GetUser(userEmail);
-            if (u1 != null && u1.Password == password)
-            {
-                return true;
-            }
-            else return false;
+            return Provider.GetUser(userEmail);
+            //if (u1 != null && u1.Password == password)
+            //{
+            //    return true;
+            //}
+            //else return false;
         }
 
         public IEnumerable<User> GetUsers()

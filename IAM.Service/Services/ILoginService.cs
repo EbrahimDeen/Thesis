@@ -7,7 +7,7 @@ namespace IAM.API.Services
     public interface ILoginService
     {
         IEnumerable<User> GetUsers();
-        bool AuthenticateUser(string userEmail, string password);
+        User AuthenticateUser(string userEmail, string password);
         void User_Register(RegisterUserRequest user);
     }
 }
