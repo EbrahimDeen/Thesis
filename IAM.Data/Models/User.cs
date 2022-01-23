@@ -8,10 +8,10 @@ namespace IAM.Data.Models
     public class User
     {
         [Key]
-        public int User_ID { get; set; }
-        public string User_fristName { get; set; }
-        public string User_lastName { get; set; }
-        public string User_Email { get; set; }
+        public int ID { get; set; }
+        public string FristName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
         public DateTime? DOB { get; set; }
         public string Country { get; set; }
         public string Password { get; set; }

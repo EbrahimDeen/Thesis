@@ -43,10 +43,10 @@ namespace IAM.Storage
                     DOB = Convert.ToDateTime(reader["DOB"]),
                     Password = reader["Password"].ToString(),
                     Status = reader["Status"].ToString(),
-                    User_Email = reader["User_Email"].ToString(),
-                    User_fristName = reader["User_fristName"].ToString(),
-                    User_ID = Convert.ToInt32(reader["User_ID"]),
-                    User_lastName = reader["User_lastName"].ToString()
+                    Email = reader["User_Email"].ToString(),
+                    FristName = reader["User_fristName"].ToString(),
+                    ID = Convert.ToInt32(reader["User_ID"]),
+                    LastName = reader["User_lastName"].ToString()
                 };
                 yield return user;
             }
@@ -60,9 +60,9 @@ namespace IAM.Storage
             command.CommandText = $"[{DBSCHEMA}].SP_RegisterUser";
             command.CommandType = System.Data.CommandType.StoredProcedure;
             connection.Open();
-            command.Parameters.AddWithValue("@User_fristName ", user.User_fristName);
-            command.Parameters.AddWithValue("@User_lastName ", user.User_lastName);
-            command.Parameters.AddWithValue("@User_Email ", user.User_Email);
+            command.Parameters.AddWithValue("@User_fristName ", user.FristName);
+            command.Parameters.AddWithValue("@User_lastName ", user.LastName);
+            command.Parameters.AddWithValue("@User_Email ", user.Email);
             command.Parameters.AddWithValue("@DOB", user.DOB);
             command.Parameters.AddWithValue("@Country ",user.Country);
             command.Parameters.AddWithValue("@Password ",user.Password);

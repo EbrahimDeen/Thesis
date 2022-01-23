@@ -17,11 +17,6 @@ namespace IAM.API.Services
         public User AuthenticateUser(string userEmail, string password)
         {
             return Provider.GetUser(userEmail);
-            //if (u1 != null && u1.Password == password)
-            //{
-            //    return true;
-            //}
-            //else return false;
         }
 
         public IEnumerable<User> GetUsers()
@@ -33,7 +28,7 @@ namespace IAM.API.Services
         public void User_Register(RegisterUserRequest user)
         {
             var userList = Provider.GetUsers();
-            var alradyExist=userList.Any(x => x.User_Email == user.Email);
+            var alradyExist=userList.Any(x => x.Email == user.Email);
             if (!alradyExist)
             {
                 Provider.AddUser(user.Email, user.FristName, user.LastName, user.Password, user.DOB

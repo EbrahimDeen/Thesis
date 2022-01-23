@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IAM.Authenticator\IAM.Authenticator.csproj" />
     <ProjectReference Include="..\IAM.Data\IAM.Data.csproj" />
     <ProjectReference Include="..\IAM.Storage\IAM.Storage.csproj" />
   </ItemGroup>

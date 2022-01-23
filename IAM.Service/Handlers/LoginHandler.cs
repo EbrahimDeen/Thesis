@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 
 namespace IAM.API.Handlers
@@ -32,12 +33,12 @@ namespace IAM.API.Handlers
                 GetUserResponse response = new GetUserResponse()
                 {
                     Country = user.Country,
-                    User_Email = user.User_Email,
+                    User_Email = user.Email,
                     DOB = user.DOB,
                     Status = user.Status,
-                    User_fristName = user.User_fristName,
-                    User_ID = user.User_ID,
-                    User_lastName = user.User_lastName
+                    User_fristName = user.FristName,
+                    User_ID = user.ID,
+                    User_lastName = user.LastName
                 };
                 getUserResponses.Add(response);
             }
@@ -50,9 +51,16 @@ namespace IAM.API.Handlers
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.FristName),
+                new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
+                new Claim("UserID", userInfo.ID.ToString()),
+            };
+
+
             var token = new JwtSecurityToken(Configuration["Jwt:Issuer"],
               Configuration["Jwt:Issuer"],
-              null,
+              claims,
               expires: DateTime.Now.AddMinutes(120),
               signingCredentials: credentials);
 
@@ -60,12 +68,10 @@ namespace IAM.API.Handlers
         }
         public object Login(string userEmail , string password)
         {
-            User user = null;
             string tokenString = "";
             var exp = ExecuteTryCatch(() =>
             {
-                //throw new Exception("Test Exption");
-                user = Service.AuthenticateUser(userEmail, password);
+                var user = Service.AuthenticateUser(userEmail, password);
                 if (user != null)
                 {
                     tokenString = GenerateJSONWebToken(user);
@@ -75,7 +81,8 @@ namespace IAM.API.Handlers
             if (exp is null)
             {
                 return string.IsNullOrWhiteSpace(tokenString) ? 
-                    new UnauthorizedAccessException("Invalid Username or Password!") : tokenString;
+                    new UnauthorizedAccessException("Invalid Username or Password!") : 
+                    new LoginResponseModel() { Token = tokenString};
             }
             else return exp;
         }
