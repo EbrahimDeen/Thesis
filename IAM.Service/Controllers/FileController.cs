@@ -14,7 +14,7 @@ namespace IAM.API.Controllers
         [Route("TestRedis")]
         public IActionResult TestRedis()
         {
-            Redis.TestResult();
+            Redis.Ping();
             return Ok();
         }
     }

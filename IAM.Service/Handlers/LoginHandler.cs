@@ -1,4 +1,5 @@
 ﻿using IAM.API.Services;
+using IAM.Data;
 using IAM.Data.Models;
 using IAM.Data.RequestModels;
 using IAM.Data.ResponseModel;
@@ -17,10 +18,12 @@ namespace IAM.API.Handlers
     {
         readonly ILoginService Service;
         readonly IConfiguration Configuration;
-        public LoginHandler(ILoginService service, IConfiguration configuration)
+        IRedis Redis;
+        public LoginHandler(ILoginService service, IConfiguration configuration, IRedis redis)
         {
             Service = service;
             Configuration = configuration;
+            Redis = redis;
         }
 
         public IEnumerable<GetUserResponse> GetUsers()
@@ -75,6 +78,7 @@ namespace IAM.API.Handlers
                 if (user != null)
                 {
                     tokenString = GenerateJSONWebToken(user);
+                    Redis.AddUserSession(user.ID.ToString(), tokenString);
                 }
             });
 

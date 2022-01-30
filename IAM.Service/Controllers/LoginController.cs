@@ -15,9 +15,9 @@ namespace IAM.Service.Controllers
     public class LoginController : BaseController
     {
         readonly LoginHandler Handler;
-        public LoginController(ILoginService service, IConfiguration configuration): base(configuration)
+        public LoginController(ILoginService service, IConfiguration configuration, IRedis redis): base(configuration)
         {
-            Handler = new LoginHandler(service, configuration);
+            Handler = new LoginHandler(service, configuration, redis);
         }
 
         [HttpGet]

@@ -9,18 +9,44 @@ namespace IAM.Authenticator
 {
     public class Redis
     {
-        static RedisClient cli = new ("127.0.0.1:6379");
+        static readonly RedisClient cli = new ("127.0.0.1:6379");
         
-        public static void TestResult()
+        public static string Ping()
         {
             var isping = cli.Ping();
             Console.WriteLine(isping);
-            //cli.Notice += (s, e) => Console.WriteLine(e.Log);
-            //cli.Set("key1", "value1");
-            //cli.MSet("key1", "value1", "key2", "value2");
-            //string value1 = cli.Get("key1");
-            //string[] vals = cli.MGet("key1", "key2");
+            return isping;
+        }
 
+        public static void Add(string key, string value)
+        {
+            try
+            {
+                cli.Set(key, value);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public static string Get(string key)
+        {
+            try
+            {
+                return cli.Get(key);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public static void Remove(string key)
+        {
+            try
+            {
+                cli.Set(key, "");
+            }
+            catch (Exception) { throw; }
         }
     }
 }
