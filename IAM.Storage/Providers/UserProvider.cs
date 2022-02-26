@@ -23,7 +23,7 @@ namespace IAM.Storage.Providers
                 Password = password,
                 Status = status,
                 Email = userEmail,
-                FristName = firstName,
+                FirstName = firstName,
                 LastName = lastName
             });
         }

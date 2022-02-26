@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IAM.Storage
+namespace IAM.Storage.Providers
 {
-    public interface IDbContext
+    public interface IFileProvider
     {
-        public IEnumerable<User> GetUsers();
-        void AddUser(User user);
         int AddFile(File file);
     }
 }

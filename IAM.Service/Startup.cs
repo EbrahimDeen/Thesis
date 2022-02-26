@@ -61,6 +61,8 @@ namespace IAM.Service
             services.AddSingleton<IUserProvider, UserProvider>();
             services.AddSingleton<IDbContext, IamDBContext>();
             services.AddSingleton<IRedis, RedisService>();
+            services.AddSingleton<IFileService, FileService>();
+            services.AddSingleton<IFileProvider, FileProvider>();
             
             services.AddSwaggerGen(c =>
             {
