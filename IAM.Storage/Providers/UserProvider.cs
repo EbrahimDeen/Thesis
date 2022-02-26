@@ -22,9 +22,9 @@ namespace IAM.Storage.Providers
                 DOB = dob,
                 Password = password,
                 Status = status,
-                User_Email = userEmail,
-                User_fristName = firstName,
-                User_lastName = lastName
+                Email = userEmail,
+                FristName = firstName,
+                LastName = lastName
             });
         }
         public void AddUser(User user)
@@ -39,7 +39,7 @@ namespace IAM.Storage.Providers
 
         public User GetUser(string userEmail)
         {
-            var user = Context.GetUsers().FirstOrDefault(x => x.User_Email == userEmail);
+            var user = Context.GetUsers().FirstOrDefault(x => x.Email == userEmail);
             //var user = DatabaseData.Users.Where(x => x.Name == username).FirstOrDefault();
             return user;
         }
