@@ -44,7 +44,7 @@ namespace IAM.Storage
                     Password = reader["Password"].ToString(),
                     Status = reader["Status"].ToString(),
                     Email = reader["User_Email"].ToString(),
-                    FristName = reader["User_fristName"].ToString(),
+                    FirstName = reader["User_fristName"].ToString(),
                     ID = Convert.ToInt32(reader["User_ID"]),
                     LastName = reader["User_lastName"].ToString()
                 };
@@ -60,7 +60,7 @@ namespace IAM.Storage
             command.CommandText = $"[{DBSCHEMA}].SP_RegisterUser";
             command.CommandType = System.Data.CommandType.StoredProcedure;
             connection.Open();
-            command.Parameters.AddWithValue("@User_fristName ", user.FristName);
+            command.Parameters.AddWithValue("@User_fristName ", user.FirstName);
             command.Parameters.AddWithValue("@User_lastName ", user.LastName);
             command.Parameters.AddWithValue("@User_Email ", user.Email);
             command.Parameters.AddWithValue("@DOB", user.DOB);
@@ -69,6 +69,20 @@ namespace IAM.Storage
             command.Parameters.AddWithValue("@Status ", user.Status);
             command.ExecuteNonQuery();
 
+        }
+
+        public int AddFile(File file)
+        {
+            using var connection = CreateConnection();
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[{DBSCHEMA}].SP_AddFile";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@Data", file.Data);
+            command.Parameters.AddWithValue("@Name", file.Name);
+            command.Parameters.AddWithValue("@Ext", file.Ext);
+            connection.Open();
+            var id = (int)command.ExecuteScalar();
+            return id;
         }
     }
 }

@@ -39,7 +39,7 @@ namespace IAM.API.Handlers
                     User_Email = user.Email,
                     DOB = user.DOB,
                     Status = user.Status,
-                    User_fristName = user.FristName,
+                    User_fristName = user.FirstName,
                     User_ID = user.ID,
                     User_lastName = user.LastName
                 };
@@ -55,7 +55,7 @@ namespace IAM.API.Handlers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, userInfo.FristName),
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.FirstName),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
                 new Claim("UserID", userInfo.ID.ToString()),
             };
@@ -97,8 +97,7 @@ namespace IAM.API.Handlers
             {
                 Service.User_Register(user);
             });
-            if (exp is null) return null;
-            else return exp;
+            return exp;
 
         }
     }

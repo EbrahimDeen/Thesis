@@ -31,7 +31,7 @@ namespace IAM.API.Services
             var alradyExist=userList.Any(x => x.Email == user.Email);
             if (!alradyExist)
             {
-                Provider.AddUser(user.Email, user.FristName, user.LastName, user.Password, user.DOB
+                Provider.AddUser(user.Email, user.FirstName, user.LastName, user.Password, DateTime.Parse(user.DOB)
                 , user.Country, "A");
 
             }
