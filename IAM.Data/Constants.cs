@@ -9,5 +9,7 @@ namespace IAM.Data
     public static class Constants
     {
         public const string USERKEY = "USERKEY";
+        public const string RedisConfigurationIP = "RedisIP";
+        public const string UnAuthorizedLogMessage = "User not verified!";
     }
 }

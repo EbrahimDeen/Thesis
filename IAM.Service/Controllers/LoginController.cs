@@ -1,6 +1,7 @@
 ﻿using IAM.API.Controllers;
 using IAM.API.Handlers;
 using IAM.API.Services;
+using IAM.Authenticator;
 using IAM.Data.Models;
 using IAM.Data.RequestModels;
 using IAM.Data.ResponseModel;
@@ -15,9 +16,9 @@ namespace IAM.Service.Controllers
     public class LoginController : BaseController
     {
         readonly LoginHandler Handler;
-        public LoginController(ILoginService service, IConfiguration configuration, IRedis redis): base(configuration)
+        public LoginController(ILoginService service, IConfiguration configuration, IAuthenticator authenticator): base(configuration)
         {
-            Handler = new LoginHandler(service, configuration, redis);
+            Handler = new LoginHandler(service, configuration, authenticator);
         }
 
         [HttpGet]

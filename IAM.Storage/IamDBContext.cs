@@ -71,7 +71,7 @@ namespace IAM.Storage
 
         }
 
-        public int AddFile(File file)
+        public int AddFile(File file, int userId)
         {
             using var connection = CreateConnection();
             SqlCommand command = connection.CreateCommand();
@@ -80,9 +80,35 @@ namespace IAM.Storage
             command.Parameters.AddWithValue("@Data", file.Data);
             command.Parameters.AddWithValue("@Name", file.Name);
             command.Parameters.AddWithValue("@Ext", file.Ext);
+            command.Parameters.AddWithValue("@UserId", userId);
             connection.Open();
             var id = (int)command.ExecuteScalar();
             return id;
         }
+
+        public List<FileMetaData> GetFilesMetaData(int userId)
+        {
+            using var connection = CreateConnection();
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[{DBSCHEMA}].SP_GetFileMetaData";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@UserId", userId);
+            connection.Open();
+            var reader = command.ExecuteReader();
+            List<FileMetaData> lst = new List<FileMetaData>();
+            while (reader.Read())
+            {
+                lst.Add(new FileMetaData
+                {
+                    FileName = reader["FileName"].ToString(),
+                    Ext = reader["Ext"].ToString(),
+                    CreatedBy = reader["CreatedBy"].ToString(),
+                    FileSize = Convert.ToInt64(reader["FileSize"]),
+                    CreatedDate = Convert.ToDateTime(reader["CreatedDate"])
+                });
+            }
+            return lst;
+        }
+
     }
 }

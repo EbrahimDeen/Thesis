@@ -11,6 +11,7 @@ namespace IAM.Storage
     {
         public IEnumerable<User> GetUsers();
         void AddUser(User user);
-        int AddFile(File file);
+        int AddFile(File file, int userId);
+        List<FileMetaData> GetFilesMetaData(int userId);
     }
 }
