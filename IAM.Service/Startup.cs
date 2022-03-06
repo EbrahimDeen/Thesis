@@ -1,4 +1,5 @@
 using IAM.API.Services;
+using IAM.Authenticator;
 using IAM.Storage;
 using IAM.Storage.Providers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,8 +34,8 @@ namespace IAM.Service
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://0.0.0.0:5000",
-                                            "https://0.0.0.0:5001")
+                        builder.WithOrigins("http://0.0.0.0:6000",
+                                            "https://0.0.0.0:6001")
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
@@ -63,6 +64,7 @@ namespace IAM.Service
             services.AddSingleton<IRedis, RedisService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IFileProvider, FileProvider>();
+            services.AddSingleton<IAuthenticator, Authenticate>();
             
             services.AddSwaggerGen(c =>
             {

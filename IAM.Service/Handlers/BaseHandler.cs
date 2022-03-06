@@ -5,7 +5,7 @@ namespace IAM.API.Handlers
 {
     public class BaseHandler
     {
-        public object ExecuteTryCatch(Action apiCall)
+        public object ExecuteTryCatch(Action apiCall, string exceptionLogMessage = "")
         {
             try
             {
@@ -13,7 +13,7 @@ namespace IAM.API.Handlers
             }
             catch (Exception ex)
             {
-                //logError;
+                //logError with exceptionLogMessage;
                 return ex;
             }
             return null;

@@ -1,5 +1,6 @@
 ﻿using IAM.Data.Models;
 using IAM.Storage.Providers;
+using System.Collections.Generic;
 
 namespace IAM.API.Services
 {
@@ -20,9 +21,14 @@ namespace IAM.API.Services
             throw new System.NotImplementedException();
         }
 
-        public int SaveFile(File file)
+        public List<FileMetaData> GetFilesMetaData(int userId)
         {
-            return Provider.AddFile(file);
+            return Provider.GetFilesMetaData(userId);
+        }
+
+        public int SaveFile(File file, int userId)
+        {
+            return Provider.AddFile(file, userId);
             
         }
     }
