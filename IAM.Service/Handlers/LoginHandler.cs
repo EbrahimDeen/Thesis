@@ -71,6 +71,25 @@ namespace IAM.API.Handlers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        internal object Logout(string token)
+        {
+            var exp = ExecuteTryCatch(() =>
+            {
+                var tokenUser = Authenticator.AuthToken(token);
+                if (tokenUser != null)
+                {
+                    Authenticator.RemoveUserToken(token);
+                }
+            });
+
+            if (exp is null)
+            {
+                return new Exception("Somthing went wrong unable to logout, Contact Admin!");
+            }
+            else return exp;
+        }
+
         public object Login(string userEmail , string password)
         {
             string tokenString = "";

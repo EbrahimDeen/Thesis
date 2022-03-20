@@ -6,5 +6,6 @@ namespace IAM.Authenticator
     {
         void AddUserToken(string token, string userId);
         User AuthToken(string token);
+        void RemoveUserToken(string token);
     }
 }

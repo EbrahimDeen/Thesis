@@ -47,6 +47,14 @@ namespace IAM.Service.Controllers
             return StatusCodeResult(env);
 
         }
-        
+
+        [HttpPost]
+        [Route("Logout")]
+        public IActionResult Logout([FromBody] string token)
+        {
+            var res = Handler.Logout(token);
+            var env = GetResult(res);
+            return StatusCodeResult(env);
+        }
     }
 }
