@@ -6,6 +6,7 @@ using IAM.Data.RequestModels;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IAM.API.Handlers
 {
@@ -20,6 +21,25 @@ namespace IAM.API.Handlers
             Configuration = configuration;
             Authenticator = authenticator;
         }
+
+        internal async Task<object> GetFileByIdAsync(string token, int id)
+        {
+            File file = new File();
+            var exp = await ExecuteTryCatchAsync(async () =>
+            {
+                var user = Authenticator.AuthToken(token);
+                if (user != null)
+                {
+                    file = await Service.GetFileByIdAsync(user.ID, id);
+                }
+                else
+                {
+                    throw new UnauthorizedAccessException(Constants.UnAuthorizedLogMessage);
+                }
+            });
+            return exp ?? file;
+        }
+
 
         internal object SaveFile(RequestSaveFile saveFile)
         {
@@ -36,16 +56,12 @@ namespace IAM.API.Handlers
                 };
                 Service.SaveFile(file, user.ID);
             });
-            if (exp == null)
-            {
-                return new Exception("File Not Saved!");
-            }
             return exp;
         }
 
         internal object GetAllFilesMeta(string token)
         {
-            List<FileMetaData> metaData = new List<FileMetaData>();
+            IEnumerable<FileMetaData> metaData = new List<FileMetaData>();
             var exp = ExecuteTryCatch(() =>
             {
                 var user = Authenticator.AuthToken(token);

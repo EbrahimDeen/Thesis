@@ -20,7 +20,12 @@ namespace IAM.Storage.Providers
             return Context.AddFile(file,userId);
         }
 
-        public List<FileMetaData> GetFilesMetaData(int userId)
+        public Task<File> GetFileByIdAsync(int userId, int fileId)
+        {
+            return Context.GetFileByIdAsync(userId,fileId);
+        }
+
+        public IEnumerable<FileMetaData> GetFilesMetaData(int userId)
         {
             return Context.GetFilesMetaData(userId);
         }

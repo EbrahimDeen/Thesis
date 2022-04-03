@@ -25,6 +25,19 @@ namespace IAM.Authenticator
             }
         }
 
+        public void RemoveUserToken(string token)
+        {
+            try
+            {
+                Redis.Remove(token);
+            }
+            catch (Exception)
+            {
+                //log ex
+                throw;
+            }
+        }
+
         public User AuthToken(string token)
         {
             try

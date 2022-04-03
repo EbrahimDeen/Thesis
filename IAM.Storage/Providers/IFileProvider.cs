@@ -10,6 +10,7 @@ namespace IAM.Storage.Providers
     public interface IFileProvider
     {
         int AddFile(File file, int userId);
-        List<FileMetaData> GetFilesMetaData(int userId);
+        IEnumerable<FileMetaData> GetFilesMetaData(int userId);
+        Task<File> GetFileByIdAsync(int userId, int fileId);
     }
 }
