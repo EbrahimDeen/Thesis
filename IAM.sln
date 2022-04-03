@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31912.275
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.API", "IAM.Service\IAM.API.csproj", "{278D5907-7621-4F05-A99D-520BBDBC4767}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Storage", "IAM.Storage\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Authenticator", "IAM.Authenticator\IAM.Authenticator.csproj", "{3FAFB025-6973-4923-9632-65A91B444042}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAM.Common", "IAM.Common\IAM.Common.csproj", "{052416ED-51A6-4CA2-AC58-C6B836970FAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Common", "IAM.Common\IAM.Common.csproj", "{052416ED-51A6-4CA2-AC58-C6B836970FAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
