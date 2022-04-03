@@ -6,6 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="FreeRedis" Version="0.3.7" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IAM.Data\IAM.Data.csproj" />
+    <ProjectReference Include="..\IAM.Storage\IAM.Storage.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using IAM.API.Services;
+using IAM.Authenticator;
 using IAM.Data;
 using IAM.Data.Models;
 using IAM.Data.RequestModels;
@@ -18,12 +19,13 @@ namespace IAM.API.Handlers
     {
         readonly ILoginService Service;
         readonly IConfiguration Configuration;
-        IRedis Redis;
-        public LoginHandler(ILoginService service, IConfiguration configuration, IRedis redis)
+        IAuthenticator Authenticator;
+        //IRedis Redis;
+        public LoginHandler(ILoginService service, IConfiguration configuration, IAuthenticator authenticator)
         {
             Service = service;
             Configuration = configuration;
-            Redis = redis;
+            Authenticator = authenticator;
         }
 
         public IEnumerable<GetUserResponse> GetUsers()
@@ -69,6 +71,25 @@ namespace IAM.API.Handlers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        internal object Logout(string token)
+        {
+            var exp = ExecuteTryCatch(() =>
+            {
+                var tokenUser = Authenticator.AuthToken(token);
+                if (tokenUser != null)
+                {
+                    Authenticator.RemoveUserToken(token);
+                }
+            });
+
+            if (exp is null)
+            {
+                return new Exception("Somthing went wrong unable to logout, Contact Admin!");
+            }
+            else return exp;
+        }
+
         public object Login(string userEmail , string password)
         {
             string tokenString = "";
@@ -78,7 +99,7 @@ namespace IAM.API.Handlers
                 if (user != null)
                 {
                     tokenString = GenerateJSONWebToken(user);
-                    Redis.AddUserSession(user.ID.ToString(), tokenString);
+                    Authenticator.AddUserToken(tokenString, user.ID.ToString());
                 }
             });
 

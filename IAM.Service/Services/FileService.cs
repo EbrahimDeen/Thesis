@@ -1,5 +1,7 @@
 ﻿using IAM.Data.Models;
 using IAM.Storage.Providers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IAM.API.Services
 {
@@ -15,14 +17,20 @@ namespace IAM.API.Services
             throw new System.NotImplementedException();
         }
 
-        public File GetFileById(int ID)
+        public async Task<File> GetFileByIdAsync(int userId, int ID)
         {
-            throw new System.NotImplementedException();
+            var data = await Provider.GetFileByIdAsync(userId, ID);
+            return data;
         }
 
-        public int SaveFile(File file)
+        public IEnumerable<FileMetaData> GetFilesMetaData(int userId)
         {
-            return Provider.AddFile(file);
+            return Provider.GetFilesMetaData(userId);
+        }
+
+        public int SaveFile(File file, int userId)
+        {
+            return Provider.AddFile(file, userId);
             
         }
     }

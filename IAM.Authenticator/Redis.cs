@@ -1,6 +1,8 @@
 ﻿using FreeRedis;
+using IAM.Data;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +11,8 @@ namespace IAM.Authenticator
 {
     public class Redis
     {
-        static readonly RedisClient cli = new ("127.0.0.1:6379");
+        static readonly string _redisIP = ConfigurationManager.AppSettings[Constants.RedisConfigurationIP];
+        static readonly RedisClient cli = new (_redisIP);
         
         public static string Ping()
         {
@@ -20,33 +23,15 @@ namespace IAM.Authenticator
 
         public static void Add(string key, string value)
         {
-            try
-            {
-                cli.Set(key, value);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            cli.Set(key, value);
         }
         public static string Get(string key)
         {
-            try
-            {
-                return cli.Get(key);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return cli.Get(key);    
         }
         public static void Remove(string key)
         {
-            try
-            {
-                cli.Set(key, "");
-            }
-            catch (Exception) { throw; }
+            cli.Set(key, "");
         }
     }
 }

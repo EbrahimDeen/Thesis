@@ -34,7 +34,8 @@ namespace IAM.Storage.Providers
 
         public User GetUser(int id)
         {
-            throw new NotImplementedException();
+            var user = Context.GetUsers().FirstOrDefault(x => x.ID == id);
+            return user;
         }
 
         public User GetUser(string userEmail)

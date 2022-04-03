@@ -1,0 +1,23 @@
+{
+    "SaveFile": {
+        "HttpMethod" : "POST",
+        "RequestSchema" : {
+            "body": {
+                "token": "string",
+                "file": "string",
+                "fileName": "string",
+                "ext": "string"
+            },
+            "query": {}
+        } 
+    },
+    "GetFilesMeta": {
+        "HttpMethod" : "GET",
+        "RequestSchema": {
+            "body":{},
+            "query": {
+                "token":"string"
+            }
+        }
+    }
+}

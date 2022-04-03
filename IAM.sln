@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Data", "IAM.Data\IAM.Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Storage", "IAM.Storage\IAM.Storage.csproj", "{540DACEE-F5E9-42E6-B8F7-8BEC186696C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAM.Authenticator", "IAM.Authenticator\IAM.Authenticator.csproj", "{3FAFB025-6973-4923-9632-65A91B444042}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAM.Authenticator", "IAM.Authenticator\IAM.Authenticator.csproj", "{3FAFB025-6973-4923-9632-65A91B444042}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAM.Common", "IAM.Common\IAM.Common.csproj", "{052416ED-51A6-4CA2-AC58-C6B836970FAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3FAFB025-6973-4923-9632-65A91B444042}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FAFB025-6973-4923-9632-65A91B444042}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FAFB025-6973-4923-9632-65A91B444042}.Release|Any CPU.Build.0 = Release|Any CPU
+		{052416ED-51A6-4CA2-AC58-C6B836970FAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{052416ED-51A6-4CA2-AC58-C6B836970FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{052416ED-51A6-4CA2-AC58-C6B836970FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{052416ED-51A6-4CA2-AC58-C6B836970FAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

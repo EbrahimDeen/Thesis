@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IAM.Storage
 {
@@ -71,7 +73,7 @@ namespace IAM.Storage
 
         }
 
-        public int AddFile(File file)
+        public int AddFile(File file, int userId)
         {
             using var connection = CreateConnection();
             SqlCommand command = connection.CreateCommand();
@@ -80,9 +82,56 @@ namespace IAM.Storage
             command.Parameters.AddWithValue("@Data", file.Data);
             command.Parameters.AddWithValue("@Name", file.Name);
             command.Parameters.AddWithValue("@Ext", file.Ext);
+            command.Parameters.AddWithValue("@UserId", userId);
             connection.Open();
             var id = (int)command.ExecuteScalar();
             return id;
+        }
+
+        public IEnumerable<FileMetaData> GetFilesMetaData(int userId)
+        {
+            using var connection = CreateConnection();
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[{DBSCHEMA}].SP_GetFileMetaData";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@UserId", userId);
+            connection.Open();
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var fmd = new FileMetaData
+                {
+                    FileName = reader["FileName"].ToString(),
+                    Ext = reader["Ext"].ToString(),
+                    CreatedBy = reader["CreatedBy"].ToString(),
+                    FileSize = Convert.ToInt64(reader["FileSize"]),
+                    CreatedDate = Convert.ToDateTime(reader["CreatedDate"])
+                };
+                yield return fmd;
+            }
+        }
+
+        public async Task<File> GetFileByIdAsync(int userId, int fileId)
+        {
+            using var connection = CreateConnection();
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[{DBSCHEMA}].SP_GetFileById";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@UserId", userId);
+            command.Parameters.AddWithValue("@FileId", fileId);
+            connection.Open();
+            var reader = await command.ExecuteReaderAsync();
+
+            if (reader.Read())
+            {
+                return new File()
+                {
+                    Data = (byte[])reader["FileData"],
+                    Ext = reader["Ext"].ToString(),
+                    Name = reader["FileName"].ToString()
+                };
+            }
+            return null;
         }
     }
 }

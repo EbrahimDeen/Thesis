@@ -1,9 +1,11 @@
 ﻿using IAM.API.Handlers;
 using IAM.API.Services;
 using IAM.Authenticator;
+using IAM.Data.Models;
 using IAM.Data.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace IAM.API.Controllers
 {
@@ -11,22 +13,63 @@ namespace IAM.API.Controllers
     public class FileController : BaseController
     {
         readonly FileHandler Handler;
-        public FileController(IConfiguration configuration, IFileService service) : base(configuration)
+        public FileController(IConfiguration configuration, IFileService service, IAuthenticator authenticator) : base(configuration)
         {
-            Handler = new FileHandler(service,configuration);
+            Handler = new FileHandler(authenticator, service, configuration);
         }
+        //[HttpGet]
+        //[Route("TestRedis")]
+        //public IActionResult TestRedis()
+        //{
+        //    return Ok(Redis.Ping());
+        //}
         [HttpGet]
-        [Route("TestRedis")]
-        public IActionResult TestRedis()
+        [Route("Download")]
+        public async Task<IActionResult> DownloadAsync(string token, int id)
         {
-            return Ok(Redis.Ping());
+            var res = await Handler.GetFileByIdAsync(token, id);
+            var env = GetResult(res);
+            try
+            {
+                File file = null;
+                if (env.Success)
+                {
+                    file = (File)env.Data;
+                }
+                if (file == null) return BadRequest("File Not Found!");
+
+                var fileName = file.Name;
+                var fileBytes = file.Data;
+                var fileExt = file.Ext;
+
+                Response.ContentType = "application/octetstream";
+                Response.Headers.Add("Content-Disposition", string.Format("attachment; filename={0}", fileName));
+                Response.Headers.Add("Content-Length", fileBytes.Length.ToString());
+                await Response.Body.WriteAsync(fileBytes);
+                return Ok();
+            }
+            catch (System.Exception ex)
+            {
+                var err = GetResult(ex);
+                return StatusCodeResult(err);
+            }
         }
+
 
         [HttpPost]
         [Route("SaveFile")]
         public IActionResult SaveFile([FromBody] RequestSaveFile file)
         {
             var res = Handler.SaveFile(file);
+            var env = GetResult(res);
+            return StatusCodeResult(env);
+        }
+
+        [HttpGet]
+        [Route("GetFilesMeta")]
+        public IActionResult GetFilesMeta(string token)
+        {
+            var res = Handler.GetAllFilesMeta(token);
             var env = GetResult(res);
             return StatusCodeResult(env);
         }
