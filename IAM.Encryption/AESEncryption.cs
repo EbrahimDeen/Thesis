@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace IAM.Encryption
@@ -8,20 +9,22 @@ namespace IAM.Encryption
     {
         Aes myAes;
 
-        public static byte[] Encrypt(string plainText, byte[] key)
+        public static byte[] Encrypt(string plainText)
         {
+            using Aes myAes = Aes.Create();
             int sizeInKb = 2;
             byte[] IV = new byte[sizeInKb * 1024];
             new RNGCryptoServiceProvider().GetBytes(IV);
-            var encryptes = EncryptStringToBytes_Aes(plainText, key, IV);
+            var encryptes = EncryptStringToBytes_Aes(plainText, myAes.Key, IV);
             return encryptes;
         }
-        public static string Decrypt(byte[] cipher, byte[] key)
+        public static string Decrypt(byte[] cipher)
         {
+            using Aes myAes = Aes.Create();
             int sizeInKb = 2;
             byte[] IV = new byte[sizeInKb * 1024];
-            new RNGCryptoServiceProvider().GetBytes(IV);
-            var decryptes = DecryptStringFromBytes_Aes(cipher, key, IV);
+            //new RNGCryptoServiceProvider().GetBytes(IV);
+            var decryptes = DecryptStringFromBytes_Aes(cipher, myAes.Key, IV);
             return decryptes;
         }
 
@@ -56,14 +59,22 @@ namespace IAM.Encryption
                 }
                 encrypted = msEncrypt.ToArray();
             }
-
+            byte[] withKey = encrypted.Concat(Key).Concat(IV).ToArray();
             // Return the encrypted bytes from the memory stream.
-            return encrypted;
+            return withKey;
         }
         static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
         {
+
+            var dataLength = cipherText.Length - Key.Length - IV.Length;
+            byte[] data = new byte[dataLength];
+            Array.Copy(cipherText, data, dataLength);
+
+            Array.Copy(cipherText, data.Length, Key, 0, Key.Length);
+            Array.Copy(cipherText, data.Length + Key.Length, IV, 0, IV.Length);
+
             // Check arguments.
-            if (cipherText == null || cipherText.Length <= 0)
+            if (data == null || data.Length <= 0)
                 throw new ArgumentNullException("cipherText");
             if (Key == null || Key.Length <= 0)
                 throw new ArgumentNullException("Key");
@@ -85,7 +96,7 @@ namespace IAM.Encryption
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
                 // Create the streams used for decryption.
-                using MemoryStream msDecrypt = new MemoryStream(cipherText);
+                using MemoryStream msDecrypt = new MemoryStream(data);
                 using CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
                 using StreamReader srDecrypt = new StreamReader(csDecrypt);
 
