@@ -65,7 +65,7 @@ namespace IAM.Service
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IFileProvider, FileProvider>();
             services.AddSingleton<IAuthenticator, Authenticate>();
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IAM.Service", Version = "v1" });
@@ -76,7 +76,7 @@ namespace IAM.Service
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
