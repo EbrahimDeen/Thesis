@@ -43,7 +43,7 @@ namespace IAM.API.Handlers
 
         internal object SaveFile(RequestSaveFile saveFile)
         {
-            
+            int fileID = -1;
             var exp = ExecuteTryCatch(() =>
             {
                 var user = Authenticator.AuthToken(saveFile.Token);
@@ -54,9 +54,9 @@ namespace IAM.API.Handlers
                     Ext = saveFile.Ext,
                     Name = saveFile.FileName
                 };
-                Service.SaveFile(file, user.ID);
+                fileID = Service.SaveFile(file, user.ID);
             });
-            return exp;
+            return exp ?? fileID;
         }
 
         internal object GetAllFilesMeta(string token)

@@ -101,6 +101,7 @@ namespace IAM.Storage
             {
                 var fmd = new FileMetaData
                 {
+                    FileId = (int)reader["FileId"],
                     FileName = reader["FileName"].ToString(),
                     Ext = reader["Ext"].ToString(),
                     CreatedBy = reader["CreatedBy"].ToString(),

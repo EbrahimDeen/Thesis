@@ -8,6 +8,7 @@ namespace IAM.Data.Models
 {
     public class FileMetaData
     {
+        public int FileId { get; set; }
         public string FileName { get; set; }
         public string Ext { get; set; }
         public DateTime CreatedDate { get; set; }
