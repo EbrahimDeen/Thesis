@@ -42,11 +42,11 @@ namespace IAM.API.Controllers
                 var fileBytes = file.Data;
                 var fileExt = file.Ext;
 
-                Response.ContentType = "application/octetstream";
+                Response.ContentType = "application/octet-stream";
                 Response.Headers.Add("Content-Disposition", string.Format("attachment; filename={0}", fileName));
-                Response.Headers.Add("Content-Length", fileBytes.Length.ToString());
+                //Response.Headers.Add("Content-Length", fileBytes.Length.ToString());
                 await Response.Body.WriteAsync(fileBytes);
-                return Ok();
+                return new EmptyResult();
             }
             catch (System.Exception ex)
             {
