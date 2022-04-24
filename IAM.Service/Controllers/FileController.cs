@@ -5,6 +5,7 @@ using IAM.Data.Models;
 using IAM.Data.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Threading.Tasks;
 
 namespace IAM.API.Controllers
@@ -39,7 +40,7 @@ namespace IAM.API.Controllers
                 if (file == null) return BadRequest("File Not Found!");
 
                 var fileName = file.Name;
-                var fileBytes = file.Data;
+                var fileBytes = Convert.FromBase64String(file.Data);
                 var fileExt = file.Ext;
 
                 Response.ContentType = "application/octet-stream";

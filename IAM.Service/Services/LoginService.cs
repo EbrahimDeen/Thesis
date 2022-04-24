@@ -16,7 +16,15 @@ namespace IAM.API.Services
         }
         public User AuthenticateUser(string userEmail, string password)
         {
-            return Provider.GetUser(userEmail);
+            var user = Provider.GetUser(userEmail);
+            if(user != null)
+            {
+                if(user.Password == password)
+                {
+
+                }
+            }
+            return null;
         }
 
         public IEnumerable<User> GetUsers()
