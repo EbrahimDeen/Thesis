@@ -3,6 +3,7 @@ using IAM.Authenticator;
 using IAM.Data;
 using IAM.Data.Models;
 using IAM.Data.RequestModels;
+using IAM.Data.ResponseModel;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -25,19 +26,23 @@ namespace IAM.API.Handlers
         internal async Task<object> GetFileByIdAsync(string token, int id)
         {
             File file = new File();
+            DownloadFileResponseModel resFile = new DownloadFileResponseModel();
             var exp = await ExecuteTryCatchAsync(async () =>
             {
                 var user = Authenticator.AuthToken(token);
                 if (user != null)
                 {
                     file = await Service.GetFileByIdAsync(user.ID, id);
+                    resFile.Data = Convert.ToBase64String(file.Data);
+                    resFile.Ext = file.Ext;
+                    resFile.Name = file.Name;
                 }
                 else
                 {
                     throw new UnauthorizedAccessException(Constants.UnAuthorizedLogMessage);
                 }
             });
-            return exp ?? file;
+            return exp ?? resFile;
         }
 
 
@@ -50,7 +55,7 @@ namespace IAM.API.Handlers
                 if (user == null) throw new UnauthorizedAccessException(Constants.UnAuthorizedLogMessage);
                 File file = new File()
                 {
-                    Data = Convert.ToBase64String(saveFile.File),
+                    Data = saveFile.File,
                     Ext = saveFile.Ext,
                     Name = saveFile.FileName
                 };

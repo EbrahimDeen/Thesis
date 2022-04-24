@@ -127,7 +127,7 @@ namespace IAM.Storage
             {
                 return new File()
                 {
-                    Data = reader["FileData"].ToString(),
+                    Data = (byte[])reader["FileData"],
                     Ext = reader["Ext"].ToString(),
                     Name = reader["FileName"].ToString()
                 };

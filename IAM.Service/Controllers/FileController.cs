@@ -30,30 +30,33 @@ namespace IAM.API.Controllers
         {
             var res = await Handler.GetFileByIdAsync(token, id);
             var env = GetResult(res);
-            try
-            {
-                File file = null;
-                if (env.Success)
-                {
-                    file = (File)env.Data;
-                }
-                if (file == null) return BadRequest("File Not Found!");
+            return StatusCodeResult(env);
 
-                var fileName = file.Name;
-                var fileBytes = Convert.FromBase64String(file.Data);
-                var fileExt = file.Ext;
 
-                Response.ContentType = "application/octet-stream";
-                Response.Headers.Add("Content-Disposition", string.Format("attachment; filename={0}", fileName));
-                //Response.Headers.Add("Content-Length", fileBytes.Length.ToString());
-                await Response.Body.WriteAsync(fileBytes);
-                return new EmptyResult();
-            }
-            catch (System.Exception ex)
-            {
-                var err = GetResult(ex);
-                return StatusCodeResult(err);
-            }
+            //try
+            //{
+            //    File file = null;
+            //    if (env.Success)
+            //    {
+            //        file = (File)env.Data;
+            //    }
+            //    if (file == null) return BadRequest("File Not Found!");
+
+            //    var fileName = file.Name;
+            //    var fileBytes = Convert.FromBase64String(file.Data);
+            //    var fileExt = file.Ext;
+
+            //    Response.ContentType = "application/octet-stream";
+            //    Response.Headers.Add("Content-Disposition", string.Format("attachment; filename={0}", fileName));
+            //    //Response.Headers.Add("Content-Length", fileBytes.Length.ToString());
+            //    await Response.Body.WriteAsync(fileBytes);
+            //    return new EmptyResult();
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    var err = GetResult(ex);
+            //    return StatusCodeResult(err);
+            //}
         }
 
 

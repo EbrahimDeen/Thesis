@@ -8,7 +8,7 @@ namespace IAM.Data.Models
 {
     public class File
     {
-        public string Data { get; set; }
+        public byte[] Data { get; set; }
         public string Name { get; set; }
         public string Ext { get; set; }
     }
