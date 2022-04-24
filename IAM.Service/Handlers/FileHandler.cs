@@ -50,7 +50,7 @@ namespace IAM.API.Handlers
                 if (user == null) throw new UnauthorizedAccessException(Constants.UnAuthorizedLogMessage);
                 File file = new File()
                 {
-                    Data = Convert.FromBase64String(saveFile.File),
+                    Data = Convert.ToBase64String(saveFile.File),
                     Ext = saveFile.Ext,
                     Name = saveFile.FileName
                 };
