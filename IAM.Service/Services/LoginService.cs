@@ -21,7 +21,7 @@ namespace IAM.API.Services
             {
                 if(user.Password == password)
                 {
-
+                    return user;
                 }
             }
             return null;
