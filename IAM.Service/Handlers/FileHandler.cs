@@ -16,11 +16,13 @@ namespace IAM.API.Handlers
         readonly IConfiguration Configuration;
         readonly IFileService Service;
         readonly IAuthenticator Authenticator;
-        public FileHandler(IAuthenticator authenticator,IFileService service ,IConfiguration configuration)
+        readonly IAnalysisService AnalysisService;
+        public FileHandler(IAuthenticator authenticator,IFileService service ,IConfiguration configuration, IAnalysisService analysisService)
         {
             Service = service;
             Configuration = configuration;
             Authenticator = authenticator;
+            AnalysisService = analysisService;
         }
 
         internal async Task<object> GetFileByIdAsync(string token, int id)
@@ -33,9 +35,13 @@ namespace IAM.API.Handlers
                 if (user != null)
                 {
                     file = await Service.GetFileByIdAsync(user.ID, id);
-                    resFile.Data = Convert.ToBase64String(file.Data);
-                    resFile.Ext = file.Ext;
-                    resFile.Name = file.Name;
+                    if(file != null)
+                    {
+                        resFile.Data = Convert.ToBase64String(file.Data);
+                        resFile.Ext = file.Ext;
+                        resFile.Name = file.Name;
+                    }
+                    else { resFile = null; }
                 }
                 else
                 {
@@ -83,5 +89,41 @@ namespace IAM.API.Handlers
             return exp ?? metaData;
            
         }
+
+        internal void AddFileAnalysis(FileAnalysisRequest request,int fileId, string token)
+        {
+            var user = Authenticator.AuthToken(token);
+
+            var analysis = new AnalysisModel()
+            {
+                DownloadedBy = user.ID,
+                IP = request.IPAddress,
+                FileID = fileId,
+                ContinentName = request.Continent,
+                CountryName = request.CountryName,
+                CityName = request.CityName,
+                OwnerID = -1
+            };
+
+            AnalysisService.FileDownloaded(analysis);
+        }
+        internal object GetFileAnalysis(string token, int fileId)
+        {
+            object analysis = null;
+            var exp = ExecuteTryCatch(() =>
+            {
+                var user = Authenticator.AuthToken(token);
+                if (user != null)
+                {
+                    analysis = AnalysisService.GetFileAnalysis(fileId);
+                }
+                else
+                {
+                    throw new UnauthorizedAccessException(Constants.UnAuthorizedLogMessage);
+                }
+            });
+            return exp ?? analysis;
+        }
+
     }
 }

@@ -12,4 +12,12 @@ namespace IAM.Data.RequestModels
         public string FileName { get; set; }
         public string Ext { get; set; }
     }
+
+    public class RequestSaveEncryptedFile : BaseRequestModel
+    {
+        public string HexData { get; set; }
+        public string FileName { get; set; }
+        public string Ext { get; set; }
+    }
+
 }

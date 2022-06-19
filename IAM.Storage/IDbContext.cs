@@ -14,5 +14,6 @@ namespace IAM.Storage
         int AddFile(File file, int userId);
         IEnumerable<FileMetaData> GetFilesMetaData(int userId);
         Task<File> GetFileByIdAsync(int userId, int id);
+        void AddFileDownloadedAnalysis(object requst);
     }
 }

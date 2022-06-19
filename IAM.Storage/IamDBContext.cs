@@ -112,6 +112,31 @@ namespace IAM.Storage
             }
         }
 
+        public IEnumerable<FileMetaData> GetFileMetaData(int fileId)
+        {
+            using var connection = CreateConnection();
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[{DBSCHEMA}].SP_GetFileMetaDataByID";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@FileId", fileId);
+            connection.Open();
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var fmd = new FileMetaData
+                {
+                    FileId = (int)reader["FileId"],
+                    FileName = reader["FileName"].ToString(),
+                    Ext = reader["Ext"].ToString(),
+                    CreatedBy = reader["CreatedBy"].ToString(),
+                    FileSize = Convert.ToInt64(reader["FileSize"]),
+                    CreatedDate = Convert.ToDateTime(reader["CreatedDate"])
+                };
+                yield return fmd;
+            }
+        }
+
+
         public async Task<File> GetFileByIdAsync(int userId, int fileId)
         {
             using var connection = CreateConnection();
@@ -133,6 +158,11 @@ namespace IAM.Storage
                 };
             }
             return null;
+        }
+
+        public void AddFileDownloadedAnalysis(object requst)
+        {
+            throw new NotImplementedException();
         }
     }
 }

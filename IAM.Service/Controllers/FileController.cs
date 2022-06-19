@@ -14,9 +14,9 @@ namespace IAM.API.Controllers
     public class FileController : BaseController
     {
         readonly FileHandler Handler;
-        public FileController(IConfiguration configuration, IFileService service, IAuthenticator authenticator) : base(configuration)
+        public FileController(IConfiguration configuration, IFileService service, IAuthenticator authenticator, IAnalysisService analysisService) : base(configuration)
         {
-            Handler = new FileHandler(authenticator, service, configuration);
+            Handler = new FileHandler(authenticator, service, configuration, analysisService);
         }
         //[HttpGet]
         //[Route("TestRedis")]
@@ -26,10 +26,23 @@ namespace IAM.API.Controllers
         //}
         [HttpGet]
         [Route("Download")]
-        public async Task<IActionResult> DownloadAsync(string token, int id)
+        public async Task<IActionResult> DownloadAsync(FileAnalysisRequest request, string token, int id)
         {
             var res = await Handler.GetFileByIdAsync(token, id);
             var env = GetResult(res);
+
+            // add analysis
+            if(res is not null)
+            {
+                if (request.IPAddress.Trim().Length < 0)
+                {
+                    request.IPAddress = HttpContext.Request.Host.Value + ':' + HttpContext.Request.Host.Port;
+                }
+
+                Handler.AddFileAnalysis(request, id, token);
+
+            }
+
             return StatusCodeResult(env);
 
 
@@ -74,6 +87,14 @@ namespace IAM.API.Controllers
         public IActionResult GetFilesMeta(string token)
         {
             var res = Handler.GetAllFilesMeta(token);
+            var env = GetResult(res);
+            return StatusCodeResult(env);
+        }
+        [HttpGet]
+        [Route("GetFileAnalysis")]
+        public IActionResult GetFileAnalysis(string token, int fileId)
+        {
+            var res = Handler.GetFileAnalysis(token, fileId);
             var env = GetResult(res);
             return StatusCodeResult(env);
         }

@@ -65,6 +65,8 @@ namespace IAM.Service
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IFileProvider, FileProvider>();
             services.AddSingleton<IAuthenticator, Authenticate>();
+            services.AddSingleton<IAnalysisProvider, AnalysisProvider>();
+            services.AddSingleton<IAnalysisService, AnalysisService>();
 
             services.AddSwaggerGen(c =>
             {
