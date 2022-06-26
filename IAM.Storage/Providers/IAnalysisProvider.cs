@@ -5,6 +5,6 @@ namespace IAM.Storage.Providers
     public interface IAnalysisProvider
     {
         void FileDownloaded(AnalysisModel request);
-        object GetFileAnalysis(int fileId);
+        object GetFileAnalysis(int fileId, int userId);
     }
 }

@@ -9,7 +9,7 @@ namespace IAM.Storage.Providers
     {
         IDbContext Context;
         UserProvider UserProvider;
-        static List<AnalysisTempDB.Analysis> DB = new List<AnalysisTempDB.Analysis>();
+        //static List<AnalysisTempDB.Analysis> DB = new List<AnalysisTempDB.Analysis>();
 
         public AnalysisProvider(IDbContext context)
         {
@@ -18,38 +18,12 @@ namespace IAM.Storage.Providers
 
         public void FileDownloaded(AnalysisModel request)
         {
-            DB.Add(new AnalysisTempDB.Analysis()
-            {
-                ID = new Guid().ToString(),
-                IP = request.IP,
-                DownloadedBy = request.DownloadedBy.ToString(),
-                FileID = request.FileID.ToString(),
-                CountryName = request.CountryName,
-                CityName = request.CityName,
-                ContinentName = request.ContinentName,
-                OwnerID = request.OwnerID.ToString()
-            });
+            Context.AddFileDownloadedAnalysis(request.IP, request.CountryName, request.CityName, request.ContinentName, request.DownloadedBy, request.FileID);
         }
 
-        public object GetFileAnalysis(int fileId)
+        public object GetFileAnalysis(int fileId, int userId)
         {
-            var records = DB.Where(x => x.FileID == fileId.ToString());
-            var noOfDownloads = records.Count();
-            var downloadedBy = new List<string>();
-            foreach (var rec in records)
-            {
-                string dUser = rec.DownloadedBy;
-                // get user name
-                var user = UserProvider.GetUser(dUser);
-                if(user != null)
-                {
-                    downloadedBy.Add(user.FirstName + ", " + user.LastName);
-                }
-                else
-                {
-                    downloadedBy.Add("n/a");
-                }
-            }
+            var records = Context.GetFileAnalysisAsync(fileId, userId);
             return records;
         }
     }

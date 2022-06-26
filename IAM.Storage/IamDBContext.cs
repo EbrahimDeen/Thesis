@@ -160,9 +160,49 @@ namespace IAM.Storage
             return null;
         }
 
-        public void AddFileDownloadedAnalysis(object requst)
+        public void AddFileDownloadedAnalysis(string IP, string countryname, string cityname, string continentname, int downloadedby, int fileId)
         {
-            throw new NotImplementedException();
+            using var connection = CreateConnection();
+
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[dbo].SP_AddAnalysis";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            connection.Open();
+            command.Parameters.AddWithValue("@IP ", IP);
+            command.Parameters.AddWithValue("@CountryName ", countryname);
+            command.Parameters.AddWithValue("@CityName ", cityname);
+            command.Parameters.AddWithValue("@ContinentName", continentname);
+            command.Parameters.AddWithValue("@DownloadedBy ", downloadedby);
+            command.Parameters.AddWithValue("@FileId ", fileId);
+            command.ExecuteNonQuery();
         }
+
+        public IEnumerable<AnalysisModel> GetFileAnalysisAsync(int fileId, int userId)
+        {
+            using var connection = CreateConnection();
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[dbo].SP_GetFileAnalysis";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@FileId", fileId);
+            command.Parameters.AddWithValue("@UserId", userId);
+            connection.Open();
+            //IEnumerable<AnalysisModel> analysisModels
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                yield return new AnalysisModel()
+                {
+                    IP = reader["IP"].ToString(),
+                    OwnerID = Convert.ToInt32(reader["OwnerID"]),
+                    FileID = Convert.ToInt32(reader["FileId"]),
+                    CityName = reader["CityName"].ToString(),
+                    ContinentName = reader["ContinentName"].ToString(),
+                    CountryName = reader["CountryName"].ToString(),
+                    DownloadedBy = Convert.ToInt32(reader["DownloadedBy"])
+                };
+            }
+        }
+
     }
 }
