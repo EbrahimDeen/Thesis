@@ -41,7 +41,7 @@ namespace IAM.API.Handlers
                         resFile.Ext = file.Ext;
                         resFile.Name = file.Name;
                     }
-                    else { resFile = null; }
+                    else { throw new ArgumentException("File not found!"); }
                 }
                 else
                 {
