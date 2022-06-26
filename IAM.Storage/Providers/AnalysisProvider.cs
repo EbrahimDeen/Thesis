@@ -13,7 +13,7 @@ namespace IAM.Storage.Providers
 
         public AnalysisProvider(IDbContext context)
         {
-            UserProvider = new UserProvider(context);
+            Context = context;
         }
 
         public void FileDownloaded(AnalysisModel request)
