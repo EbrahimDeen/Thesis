@@ -35,13 +35,16 @@ namespace IAM.API.Handlers
                 if (user != null)
                 {
                     file = await Service.GetFileByIdAsync(user.ID, id);
-                    if(file != null)
-                    {
-                        resFile.Data = Convert.ToBase64String(file.Data);
-                        resFile.Ext = file.Ext;
-                        resFile.Name = file.Name;
-                    }
-                    else { throw new ArgumentException("File not found!"); }
+                    resFile.Data = Convert.ToBase64String(file.Data);
+                    resFile.Ext = file.Ext;
+                    resFile.Name = file.Name;
+                    //if(file != null)
+                    //{
+                    //    resFile.Data = Convert.ToBase64String(file.Data);
+                    //    resFile.Ext = file.Ext;
+                    //    resFile.Name = file.Name;
+                    //}
+                    //else { throw new ArgumentException("File not found!"); }
                 }
                 else
                 {
@@ -115,7 +118,7 @@ namespace IAM.API.Handlers
                 var user = Authenticator.AuthToken(token);
                 if (user != null)
                 {
-                    analysis = AnalysisService.GetFileAnalysis(fileId);
+                    analysis = AnalysisService.GetFileAnalysis(fileId, user.ID);
                 }
                 else
                 {

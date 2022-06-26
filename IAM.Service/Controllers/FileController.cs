@@ -26,21 +26,28 @@ namespace IAM.API.Controllers
         //}
         [HttpGet]
         [Route("Download")]
-        public async Task<IActionResult> DownloadAsync(FileAnalysisRequest request, string token, int id)
+        public async Task<IActionResult> DownloadAsync(string token, int id)
         {
             var res = await Handler.GetFileByIdAsync(token, id);
             var env = GetResult(res);
 
             // add analysis
-            if(res is not null)
+            if(env.Success)
             {
-                if (request.IPAddress.Trim().Length < 0)
+                var countryName = HttpContext.Request.Headers.ContainsKey("countryName") ? HttpContext.Request.Headers["countryName"].ToString() : "";
+                var cityName = HttpContext.Request.Headers.ContainsKey("cityName") ? HttpContext.Request.Headers["cityName"].ToString() : "";
+                var continentName = HttpContext.Request.Headers.ContainsKey("continentName") ? HttpContext.Request.Headers["continentName"].ToString() : ""; 
+                var IPAddress = HttpContext.Request.Headers.ContainsKey("IPAddress") ? HttpContext.Request.Headers["IPAddress"].ToString() : ""; 
+
+                var analysisReq = new FileAnalysisRequest()
                 {
-                    request.IPAddress = HttpContext.Request.Host.Value + ':' + HttpContext.Request.Host.Port;
-                }
+                    CityName = cityName,
+                    Continent = continentName,
+                    CountryName = countryName,
+                    IPAddress = IPAddress
+                };
 
-                Handler.AddFileAnalysis(request, id, token);
-
+                Handler.AddFileAnalysis(analysisReq, id, token);
             }
 
             return StatusCodeResult(env);

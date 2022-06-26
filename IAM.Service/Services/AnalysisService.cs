@@ -17,9 +17,9 @@ namespace IAM.API.Services
             //Provider.FileDownloaded()
             Provider.FileDownloaded(requestInfo);
         }
-        public object GetFileAnalysis(int fileId)
+        public object GetFileAnalysis(int fileId, int userId)
         {
-            return Provider.GetFileAnalysis(fileId);
+            return Provider.GetFileAnalysis(fileId, userId);
         }
     }
 }
