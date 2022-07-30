@@ -83,11 +83,7 @@ namespace IAM.API.Handlers
                 }
             });
 
-            if (exp is null)
-            {
-                return new Exception("Somthing went wrong unable to logout, Contact Admin!");
-            }
-            else return exp;
+            return exp is not null ? new Exception("Somthing went wrong unable to logout, Contact Admin!") : exp;
         }
 
         public object Login(string userEmail , string password)
