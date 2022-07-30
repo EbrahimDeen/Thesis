@@ -11,5 +11,6 @@ namespace IAM.Data
         public const string USERKEY = "USERKEY";
         public const string RedisConfigurationIP = "RedisIP";
         public const string UnAuthorizedLogMessage = "User not verified!";
+        public const string FileNotFound = "File Not Found!";
     }
 }

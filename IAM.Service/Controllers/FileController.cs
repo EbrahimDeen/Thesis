@@ -105,5 +105,23 @@ namespace IAM.API.Controllers
             var env = GetResult(res);
             return StatusCodeResult(env);
         }
+
+        [HttpGet]
+        [Route("GetPublicFiles")]
+        public IActionResult GetPublicFilesMeta(BaseRequestModel request)
+        {
+            var res = Handler.GetPublicFilesMeta(request.Token);
+            var env = GetResult(res);
+            return StatusCodeResult(env);
+        }
+
+        [HttpPost]
+        [Route("ShareFilePublic")]
+        public IActionResult SetFilePublic(ShareFilePublicRequest request)
+        {
+            var res = Handler.SetFilePublic(request.Token, request.FileId);
+            var env = GetResult(res);
+            return StatusCodeResult(env);
+        }
     }
 }

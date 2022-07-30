@@ -50,9 +50,9 @@ namespace IAM.Service.Controllers
 
         [HttpPost]
         [Route("Logout")]
-        public IActionResult Logout([FromBody] string token)
+        public IActionResult Logout(BaseRequestModel request)
         {
-            var res = Handler.Logout(token);
+            var res = Handler.Logout(request.Token);
             var env = GetResult(res);
             return StatusCodeResult(env);
         }

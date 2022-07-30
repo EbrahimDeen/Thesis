@@ -23,15 +23,31 @@ namespace IAM.API.Services
             return data;
         }
 
+        public FileMetaData GetFileMetaDataByID(int userId, int fileId)
+        {
+            return Provider.GetFileMetaDataByID(userId, fileId);
+        }
+
         public IEnumerable<FileMetaData> GetFilesMetaData(int userId)
         {
             return Provider.GetFilesMetaData(userId);
+        }
+
+        public IEnumerable<FileMetaData> GetPublicFilesMeta()
+        {
+            var files = Provider.GetPublicFilesMeta();
+            return files;
         }
 
         public int SaveFile(File file, int userId)
         {
             return Provider.AddFile(file, userId);
             
+        }
+
+        public void SetFilePublic(int fileId)
+        {
+            Provider.SetFilePublic(fileId);
         }
     }
 }

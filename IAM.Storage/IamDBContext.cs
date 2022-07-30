@@ -112,16 +112,17 @@ namespace IAM.Storage
             }
         }
 
-        public IEnumerable<FileMetaData> GetFileMetaData(int fileId)
+        public FileMetaData GetFileMetaDataByID(int userId, int fileId)
         {
             using var connection = CreateConnection();
             SqlCommand command = connection.CreateCommand();
             command.CommandText = $"[{DBSCHEMA}].SP_GetFileMetaDataByID";
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@FileId", fileId);
+            command.Parameters.AddWithValue("@UserId", userId);
             connection.Open();
             var reader = command.ExecuteReader();
-            while (reader.Read())
+            if (reader.Read())
             {
                 var fmd = new FileMetaData
                 {
@@ -132,8 +133,9 @@ namespace IAM.Storage
                     FileSize = Convert.ToInt64(reader["FileSize"]),
                     CreatedDate = Convert.ToDateTime(reader["CreatedDate"])
                 };
-                yield return fmd;
+                return fmd;
             }
+            return null;
         }
 
 
@@ -204,5 +206,39 @@ namespace IAM.Storage
             }
         }
 
+        public IEnumerable<FileMetaData> GetPublicFilesMeta()
+        {
+            using var connection = CreateConnection();
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[{DBSCHEMA}].SP_GetPublicFilesMeta";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            connection.Open();
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var fmd = new FileMetaData
+                {
+                    FileId = (int)reader["FileId"],
+                    FileName = reader["FileName"].ToString(),
+                    Ext = reader["Ext"].ToString(),
+                    CreatedBy = reader["CreatedBy"].ToString(),
+                    FileSize = Convert.ToInt64(reader["FileSize"]),
+                    CreatedDate = Convert.ToDateTime(reader["CreatedDate"])
+                };
+                yield return fmd;
+            }
+        }
+
+        public void SetFilePublic(int fileId)
+        {
+            using var connection = CreateConnection();
+
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = $"[dbo].SP_SetFilePublic";
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            connection.Open();
+            command.Parameters.AddWithValue("@FileId ", fileId);
+            command.ExecuteNonQuery();
+        }
     }
 }

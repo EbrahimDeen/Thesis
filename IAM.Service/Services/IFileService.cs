@@ -10,5 +10,8 @@ namespace IAM.API.Services
         File GetFile(string fileName, string fileExt);
         Task<File> GetFileByIdAsync(int userId, int ID);
         IEnumerable<FileMetaData> GetFilesMetaData(int iD);
+        IEnumerable<FileMetaData> GetPublicFilesMeta();
+        void SetFilePublic(int fileId);
+        FileMetaData GetFileMetaDataByID(int userId, int fileId);
     }
 }

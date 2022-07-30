@@ -35,6 +35,10 @@ namespace IAM.API.Handlers
                 if (user != null)
                 {
                     file = await Service.GetFileByIdAsync(user.ID, id);
+                    if(file is null)
+                    {
+                        throw new ArgumentException(Constants.FileNotFound);
+                    }
                     resFile.Data = Convert.ToBase64String(file.Data);
                     resFile.Ext = file.Ext;
                     resFile.Name = file.Name;
@@ -128,5 +132,44 @@ namespace IAM.API.Handlers
             return exp ?? analysis;
         }
 
+        internal object SetFilePublic(string token, int fileId)
+        {
+            var exp = ExecuteTryCatch(() =>
+            {
+                var user = Authenticator.AuthToken(token);
+                if (user == null) throw new UnauthorizedAccessException(Constants.UnAuthorizedLogMessage);
+
+                var file = Service.GetFileMetaDataByID(user.ID, fileId);
+
+                if(file is null)
+                {
+                    throw new ArgumentException(Constants.FileNotFound);
+                }
+
+                Service.SetFilePublic(fileId);
+
+
+            });
+            return exp ?? "File Shared to public!";
+        }
+
+        internal object GetPublicFilesMeta(string token)
+        {
+            IEnumerable<FileMetaData> metaData = new List<FileMetaData>();
+            var exp = ExecuteTryCatch(() =>
+            {
+                var user = Authenticator.AuthToken(token);
+                if (user != null)
+                {
+                    metaData = Service.GetPublicFilesMeta();
+                }
+                else
+                {
+                    throw new UnauthorizedAccessException(Constants.UnAuthorizedLogMessage);
+                }
+            });
+
+            return exp ?? metaData;
+        }
     }
 }
