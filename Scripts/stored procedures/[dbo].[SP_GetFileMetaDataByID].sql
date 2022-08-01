@@ -1,4 +1,8 @@
-CREATE procedure [dbo].[SP_GetFileMetaDataByID] @UserId int,@FileId int
+IF OBJECT_ID('[SP_GetFileMetaDataByID]') IS NULL
+	EXEC ('CREATE PROCEDURE [SP_GetFileMetaDataByID] AS SET NOCOUNT ON;')
+GO
+
+ALTER procedure [dbo].[SP_GetFileMetaDataByID] @UserId int,@FileId int
 AS  
 BEGIN  
   
